@@ -1,0 +1,27 @@
+version: '3'
+
+networks:
+  nk-queue-network:
+
+services:
+  nk-queue:
+    build:
+      context: "."
+      dockerfile: Dockerfile.test
+    env_file:
+      - environment.env
+    volumes:
+      - .:/app
+    networks:
+      - nk-queue-network
+
+
+  redis:
+    image: redis:3.2-alpine
+    volumes:
+      - redis_data:/data
+    networks:
+      - nk-queue-network
+
+volumes:
+  redis_data:

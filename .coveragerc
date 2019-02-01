@@ -1,0 +1,9 @@
+[run]
+branch = True
+omit =
+    nk_queue/__init__.py
+    nk_queue/config.py
+    nk_queue/abstract_queue_client.py
+    nk_queue/utils.py
+    setup.py
+    tests/__init__.py
