@@ -6,6 +6,7 @@ from nk_queue.sorted_queue_client import SortedQueueClient
 from nk_queue.list_queue import ListQueue
 from nk_queue.scheduling_queue import SchedulingQueue
 
+from nk_queue.redis_pub_sub_client import RedisPubSubClient
 from nk_queue.publisher import Publisher
 from nk_queue.subscriber import Subscriber
 
@@ -20,8 +21,8 @@ def get_queue(queue_type, queue_name):
 
 
 def get_publisher(channel_name):
-    return Publisher(HOST, PORT, DB, channel_name)
+    return Publisher(RedisPubSubClient(HOST, PORT, DB, channel_name))
 
 
 def get_subscriber(channel_name):
-    return Subscriber(HOST, PORT, DB, channel_name)
+    return Subscriber(RedisPubSubClient(HOST, PORT, DB, channel_name))

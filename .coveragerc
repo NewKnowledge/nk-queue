@@ -5,5 +5,7 @@ omit =
     nk_queue/config.py
     nk_queue/abstract_queue_client.py
     nk_queue/utils.py
+    nk_queue/abstract_pub_sub_client.py
+    nk_queue/redis_pub_sub_client.py
     setup.py
-    tests/__init__.py
+    tests/*

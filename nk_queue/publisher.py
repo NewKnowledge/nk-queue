@@ -1,16 +1,12 @@
-import redis
+from nk_queue.abstract_pub_sub_client import AbstractPubSubClient
 
 
 class Publisher:
-    def __init__(self, host, port, db, channel):
-        self._host = host
-        self._port = port
-        self._db = db
-        self._channel = channel
-        self._redis = None
+    def __init__(self, client: AbstractPubSubClient):
+        self._client = client
 
     def initialize(self):
-        self._redis = redis.Redis(self._host, self._port, self._db)
+        self._client.initialize()
 
-    def broadcast_message(self):
-        self._redis.publish(self._channel, item)
+    def broadcast_message(self, item):
+        return self._client.publish(item)
