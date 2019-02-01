@@ -1,7 +1,7 @@
 from nk_queue.abstract_queue_client import AbstractQueueClient
 
 
-class ListQueue():
+class ListQueue:
     def __init__(self, queue_name, queue_client: AbstractQueueClient):
         self._queue_name = queue_name
         self._queue_client = queue_client

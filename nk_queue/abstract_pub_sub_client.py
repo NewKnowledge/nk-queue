@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 
 
 class AbstractPubSubClient(ABC):
-
     @abstractmethod
     def initialize(self):
         pass

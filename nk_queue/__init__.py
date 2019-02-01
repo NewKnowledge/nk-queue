@@ -12,12 +12,14 @@ from nk_queue.subscriber import Subscriber
 
 
 def get_queue(queue_type, queue_name):
-    if queue_type == 'list':
+    if queue_type == "list":
         return ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
-    elif queue_type == 'sorted':
+    elif queue_type == "sorted":
         return SchedulingQueue(queue_name, SortedQueueClient(HOST, PORT, DB))
     else:
-        raise ModuleNotFoundError(f"{queue_type} is not a valid queue type, options include 'list', 'sorted', 'pubsub'")
+        raise ModuleNotFoundError(
+            f"{queue_type} is not a valid queue type, options include 'list', 'sorted', 'pubsub'"
+        )
 
 
 def get_publisher(channel_name):

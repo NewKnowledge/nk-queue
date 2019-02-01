@@ -22,4 +22,3 @@ class RedisPubSubClient(AbstractPubSubClient):
 
     def get_message(self):
         return self._pubsub.get_message()
-
