@@ -16,7 +16,7 @@ def test_publish_and_subscriber():
     publisher = Publisher(RedisPubSubClient(HOST, PORT, DB, "test_channel"))
     publisher.initialize()
 
-    publisher.publish("message")
+    publisher.broadcast_message("message")
     message = subscriber.get_message()
 
     assert message == {
