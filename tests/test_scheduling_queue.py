@@ -13,14 +13,18 @@ DB = os.getenv("DB")
 
 
 def test_schedule_item():
-    queue = SchedulingQueue(f'test{randint(0, 1000)}', SortedQueueClient(HOST, PORT, DB))
+    queue = SchedulingQueue(
+        f"test{randint(0, 1000)}", SortedQueueClient(HOST, PORT, DB)
+    )
     queue.initialize()
     output = queue.schedule_item(current_timestamp(), "test item")
     assert output == 1
 
 
 def test_get_scheduled_items():
-    queue = SchedulingQueue(f'test{randint(0, 1000)}', SortedQueueClient(HOST, PORT, DB))
+    queue = SchedulingQueue(
+        f"test{randint(0, 1000)}", SortedQueueClient(HOST, PORT, DB)
+    )
     queue.initialize()
     output = queue.schedule_item(current_timestamp(), "test item")
     assert output == 1
@@ -33,7 +37,9 @@ def test_get_scheduled_items():
 
 
 def test_remove_items():
-    queue = SchedulingQueue(f'test{randint(0, 1000)}', SortedQueueClient(HOST, PORT, DB))
+    queue = SchedulingQueue(
+        f"test{randint(0, 1000)}", SortedQueueClient(HOST, PORT, DB)
+    )
     queue.initialize()
     output = queue.schedule_item(current_timestamp(), "test item")
     assert output == 1
