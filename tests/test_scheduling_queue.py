@@ -46,5 +46,5 @@ def test_remove_items():
 
     time.sleep(1)
 
-    output = queue.remove_items(0, sys.maxsize)
+    output = queue.remove_item("test item")
     assert output == 1

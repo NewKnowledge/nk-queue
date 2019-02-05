@@ -18,7 +18,5 @@ class SchedulingQueue:
             self._queue_name, max=current_timestamp(), with_scores=with_scores
         )
 
-    def remove_items(self, from_timestamp, to_timestamp):
-        return self._queue_client.delete(
-            self._queue_name, min=from_timestamp, max=to_timestamp
-        )
+    def remove_item(self, item):
+        return self._queue_client.delete(self._queue_name, item)

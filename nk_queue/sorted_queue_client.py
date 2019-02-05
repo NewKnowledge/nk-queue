@@ -21,5 +21,5 @@ class SortedQueueClient(AbstractQueueClient):
     def put(self, queue_name, scheduled_timestamp, item):
         return self._redis.zadd(queue_name, {item: scheduled_timestamp})
 
-    def delete(self, queue_name, min, max):
-        return self._redis.zremrangebyscore(queue_name, min=min, max=max)
+    def delete(self, queue_name, item):
+        return self._redis.zrem(queue_name, item)
