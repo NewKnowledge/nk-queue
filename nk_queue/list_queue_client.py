@@ -13,7 +13,7 @@ class ListQueueClient(AbstractQueueClient):
         self._redis = redis.Redis(self._host, self._port, self._db)
 
     def get(self, queue_name):
-        return self._redis.rpop(queue_name)
+        return self._redis.brpop(queue_name)
 
     def put(self, queue_name, item):
         return self._redis.lpush(queue_name, item)
