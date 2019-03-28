@@ -14,3 +14,12 @@ class ListQueue:
 
     def get(self):
         return self._queue_client.get(self._queue_name)
+
+    def begin_transaction(self):
+        self._queue_client.begin_transaction()
+
+    def commit_transaction(self):
+        self._queue_client.commit_transaction()
+
+    def abort_transaction(self):
+        self._queue_client.abort_transaction()
