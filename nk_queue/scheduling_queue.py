@@ -20,3 +20,12 @@ class SchedulingQueue:
 
     def remove_item(self, item):
         return self._queue_client.delete(self._queue_name, item)
+
+    def begin_transaction(self):
+        self._queue_client.begin_transaction()
+
+    def commit_transaction(self):
+        self._queue_client.commit_transaction()
+
+    def abort_transaction(self):
+        self._queue_client.abort_transaction()
