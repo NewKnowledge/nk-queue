@@ -6,6 +6,10 @@ jobs:
 
     docker:
       - image: circleci/python:3.6.4
+        environment:
+          HOST: redis
+          PORT: 6379
+          DB: 0
 
       - image: circleci/redis:5.0-alpine
         name: redis
