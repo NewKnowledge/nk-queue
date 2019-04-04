@@ -18,6 +18,10 @@ class AbstractQueueClient(ABC):
         pass
 
     @abstractmethod
+    def list_all(self, *args, **kwargs):
+        pass
+
+    @abstractmethod
     def put(self, *args, **kwargs):
         pass
 
