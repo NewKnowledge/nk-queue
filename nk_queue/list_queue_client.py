@@ -28,3 +28,6 @@ class ListQueueClient(AbstractQueueClient):
 
     def delete(self):
         raise NotImplementedError()
+
+    def list_all(self, queue_name):
+        return self.operation_context().lrange(queue_name, 0, -1)

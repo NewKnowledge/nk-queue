@@ -11,7 +11,8 @@ DB = os.getenv("DB")
 
 
 def test_put():
-    list_queue = ListQueue(f"test_list_queue_{randint(0, 1000)}", ListQueueClient(HOST, PORT, DB))
+    list_queue = ListQueue(
+        f"test_list_queue_{randint(0, 1000)}", ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
     output = list_queue.put("test")
     assert output == 1
@@ -94,3 +95,19 @@ def test_transaction_abort_with_previous_put():
     next_get_output = list_queue.get()
 
     assert next_get_output is None
+
+
+def test_list_all():
+    queue_name = f"test_list_queue_{randint(0, 1000)}"
+    list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
+    list_queue.initialize()
+
+    list_queue.put("test")
+    list_queue.put("test2")
+    list_queue.put("test3")
+    list_queue.put("test4")
+
+    output = list_queue.list_all()
+
+    assert len(output) == 4
+    assert isinstance(output, list)

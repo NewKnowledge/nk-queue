@@ -21,6 +21,9 @@ class SchedulingQueue:
     def remove_item(self, item):
         return self._queue_client.delete(self._queue_name, item)
 
+    def list_all(self, with_scores=True):
+        return self._queue_client.list_all(self._queue_name, with_scores=with_scores)
+
     def begin_transaction(self):
         self._queue_client.begin_transaction()
 
