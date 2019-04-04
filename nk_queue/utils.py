@@ -1,5 +1,4 @@
 from datetime import datetime
-from random import randint
 
 
 def current_timestamp():
