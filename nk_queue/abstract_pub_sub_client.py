@@ -7,7 +7,7 @@ class AbstractPubSubClient(ABC):
         pass
 
     @abstractmethod
-    def publish(self, message):
+    def publish(self, *args, **kwargs):
         pass
 
     @abstractmethod
