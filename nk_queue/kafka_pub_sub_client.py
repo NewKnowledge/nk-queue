@@ -7,12 +7,11 @@ from nk_queue.abstract_pub_sub_client import AbstractPubSubClient
 
 
 class KafkaPubSubClient(AbstractPubSubClient):
-    def __init__(self, kafka_brokers, producer_topics, consumer_topic, group_id, max_poll_interval_ms=300000):
+    def __init__(self, kafka_brokers, producer_topics, consumer_topic, group_id):
         self._kafka_brokers = kafka_brokers
         self._producer_topics = producer_topics
         self._consumer_topic = consumer_topic
         self._group_id = group_id
-        self._max_poll_interval_ms = max_poll_interval_ms
         self._kafka_client = None
         self._producer = None
         self._consumer = None
@@ -45,8 +44,7 @@ class KafkaPubSubClient(AbstractPubSubClient):
         self._consumer = KafkaConsumer(
             self._consumer_topic,
             bootstrap_servers=self._kafka_brokers,
-            group_id=self._group_id,
-            max_poll_interval_ms=self._max_poll_interval_ms)
+            group_id=self._group_id)
 
     def publish(self, message, topic):
         self._producer.send(topic, json.dumps(message).encode("utf-8"))
