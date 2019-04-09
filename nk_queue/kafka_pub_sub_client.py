@@ -47,7 +47,7 @@ class KafkaPubSubClient(AbstractPubSubClient):
             group_id=self._group_id)
 
     def publish(self, message, topic):
-        self._producer.send(topic, json.dumps(message).encode("utf-8"))
+        self._producer.send(topic, message.encode("utf-8"))
 
     def get_message(self):
         return self._consumer
