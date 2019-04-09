@@ -6,6 +6,7 @@ from nk_queue.sorted_queue_client import SortedQueueClient
 from nk_queue.list_queue import ListQueue
 from nk_queue.scheduling_queue import SchedulingQueue
 
+from nk_queue.kafka_pub_sub_client import KafkaPubSubClient
 
 def get_queue(queue_type, queue_name, host=HOST, port=PORT, auth_token=None, ssl=False):
     host = HOST if host is None else host
@@ -19,4 +20,15 @@ def get_queue(queue_type, queue_name, host=HOST, port=PORT, auth_token=None, ssl
     else:
         raise ModuleNotFoundError(
             f"{queue_type} is not a valid queue type, options include 'list', 'sorted'"
+        )
+
+
+def get_pub_sub_client(client_type, host, publisher_channels, subscription_channel, **kwargs):
+
+    if client_type == "kafka":
+        group_id = kwargs.get("group_id", subscription_channel)
+        return KafkaPubSubClient(host, publisher_channels, subscription_channel, group_id)
+    else:
+        raise ModuleNotFoundError(
+            f"{client_type} is not a valid pub sub client type, options include 'kafka'"
         )
