@@ -13,7 +13,7 @@ class ListQueue:
         return self._queue_client.put(self._queue_name, item)
 
     def get(self, timeout=1):
-        return self._queue_client.get(self._queue_name, timeout=1)
+        return self._queue_client.get(self._queue_name, timeout)
 
     def list_all(self):
         return self._queue_client.list_all(self._queue_name)
