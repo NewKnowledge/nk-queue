@@ -32,7 +32,7 @@ def test_initialize():
 def test_publish():
     client = KafkaPubSubClient(KAFKA_BROKERS, ["producer.topic.test"], "producer.topic.test", "test_group_id")
     client.initialize()
-    client.publish({"message": "test message"}, "producer.topic.test")
+    client.publish(json.dumps({"message": "test message"}), "producer.topic.test")
     assert True
 
 
