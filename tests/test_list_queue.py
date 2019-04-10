@@ -1,8 +1,7 @@
 import os
 from random import randint
 
-from redis.client import Pipeline
-from nk_queue.list_queue import ListQueue
+from nk_queue.list_queue import ListQueue, Message
 from nk_queue.list_queue_client import ListQueueClient
 
 HOST = os.getenv("HOST")
@@ -34,6 +33,23 @@ def test_get():
 
     # Queue value as second tuple item
     assert get_output[1].decode("utf-8") == "test"
+
+
+def test_iterator():
+    queue_name = f"test_list_queue_{randint(0, 1000)}"
+    list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
+    list_queue.initialize()
+
+    output = list_queue.put("test")
+    assert output == 1
+
+    for message in list_queue:
+        assert isinstance(message, Message)
+
+        # Queue name as first tuple item
+        assert message.value.decode("utf-8") == "test"
+
+        break
 
 
 def test_transaction_commit():

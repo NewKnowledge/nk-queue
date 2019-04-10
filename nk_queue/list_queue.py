@@ -1,10 +1,20 @@
+from collections import namedtuple
+
 from nk_queue.abstract_queue_client import AbstractQueueClient
+
+Message = namedtuple("Message", "value")
 
 
 class ListQueue:
     def __init__(self, queue_name, queue_client: AbstractQueueClient):
         self._queue_name = queue_name
         self._queue_client = queue_client
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        return Message(self._queue_client.get(self._queue_name, timeout=0)[1])
 
     def initialize(self):
         self._queue_client.connect()
