@@ -1,4 +1,5 @@
 from collections import namedtuple
+import time
 
 from nk_queue.abstract_queue_client import AbstractQueueClient
 
@@ -14,7 +15,15 @@ class ListQueue:
         return self
 
     def __next__(self):
-        return Message(self._queue_client.get(self._queue_name, timeout=0)[1])
+        while True:
+            next_item = self._queue_client.read(self._queue_name)
+
+            if next_item:
+                return Message(next_item[0])
+            else:
+                # Should probably be configurable.
+                time.sleep(5)
+                continue
 
     def initialize(self):
         self._queue_client.connect()
@@ -24,6 +33,9 @@ class ListQueue:
 
     def get(self, timeout=1):
         return self._queue_client.get(self._queue_name, timeout)
+
+    def remove_item(self, item):
+        return self._queue_client.delete(self._queue_name, item)
 
     def list_all(self):
         return self._queue_client.list_all(self._queue_name)
