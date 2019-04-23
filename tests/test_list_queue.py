@@ -113,6 +113,19 @@ def test_transaction_abort_with_previous_put():
     assert next_get_output is None
 
 
+def test_delete():
+    queue_name = f"test_list_queue_{randint(0, 1000)}"
+    list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
+    list_queue.initialize()
+
+    output = list_queue.put("test")
+    assert output == 1
+
+    output = list_queue.remove_item("test")
+
+    assert output == 1
+
+
 def test_list_all():
     queue_name = f"test_list_queue_{randint(0, 1000)}"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))

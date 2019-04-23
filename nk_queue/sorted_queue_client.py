@@ -26,6 +26,9 @@ class SortedQueueClient(AbstractQueueClient):
             queue_name, min=min, max=max, withscores=with_scores
         )
 
+    def read(self):
+        raise NotImplementedError()
+
     def put(self, queue_name, scheduled_timestamp, item):
         return self.operation_context().zadd(queue_name, {item: scheduled_timestamp})
 
