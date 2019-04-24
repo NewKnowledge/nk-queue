@@ -40,6 +40,9 @@ class ListQueue:
     def list_all(self):
         return self._queue_client.list_all(self._queue_name)
 
+    def list_all(self):
+        return self._queue_client.list_all(self._queue_name)
+
     def begin_transaction(self):
         self._queue_client.begin_transaction()
 

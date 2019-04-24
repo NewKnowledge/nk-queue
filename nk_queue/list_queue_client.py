@@ -34,3 +34,6 @@ class ListQueueClient(AbstractQueueClient):
 
     def list_all(self, queue_name):
         return self.operation_context().lrange(queue_name, 0, -1)
+
+    def list_all(self, queue_name):
+        return self.operation_context().lrange(queue_name, 0, -1)
