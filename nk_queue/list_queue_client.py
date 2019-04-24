@@ -23,7 +23,7 @@ class ListQueueClient(AbstractQueueClient):
     def get(self, queue_name, timeout=1):
         return self.operation_context().brpop(queue_name, timeout=timeout)
 
-    def read(self, queue_name, start_index=0, end_index=0):
+    def read(self, queue_name, start_index=-1, end_index=-1):
         return self.operation_context().lrange(queue_name, start_index, end_index)
 
     def delete(self, queue_name, item, count=-1):
