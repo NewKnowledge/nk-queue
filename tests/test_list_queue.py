@@ -61,7 +61,6 @@ def test_iterator():
             break
 
         message_index += 1
-        list_queue.remove_item(message_value)
 
 
 def test_transaction_commit():
