@@ -1,6 +1,6 @@
 import os
 
-from nk_queue.list_queue_client import ListQueueClient
+from nk_queue.sorted_queue_client import SortedQueueClient
 
 HOST = os.getenv("HOST")
 PORT = int(os.getenv("PORT"))
@@ -8,9 +8,9 @@ DB = os.getenv("DB")
 
 
 def test_delete():
-    client = ListQueueClient(HOST, PORT, DB)
+    client = SortedQueueClient(HOST, PORT, DB)
 
     try:
-        client.delete()
+        client.read()
     except Exception as e:
         assert isinstance(e, NotImplementedError)

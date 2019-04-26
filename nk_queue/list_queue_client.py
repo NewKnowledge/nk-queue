@@ -23,11 +23,17 @@ class ListQueueClient(AbstractQueueClient):
     def get(self, queue_name, timeout=1):
         return self.operation_context().brpop(queue_name, timeout=timeout)
 
+    def read(self, queue_name, start_index=-1, end_index=-1):
+        return self.operation_context().lrange(queue_name, start_index, end_index)
+
+    def delete(self, queue_name, item, count=-1):
+        return self.operation_context().lrem(queue_name, count, item)
+
     def put(self, queue_name, item):
         return self.operation_context().lpush(queue_name, item)
 
-    def delete(self):
-        raise NotImplementedError()
+    def list_all(self, queue_name):
+        return self.operation_context().lrange(queue_name, 0, -1)
 
     def list_all(self, queue_name):
         return self.operation_context().lrange(queue_name, 0, -1)

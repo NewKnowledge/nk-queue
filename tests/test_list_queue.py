@@ -1,8 +1,7 @@
 import os
 from random import randint
 
-from redis.client import Pipeline
-from nk_queue.list_queue import ListQueue
+from nk_queue.list_queue import ListQueue, Message
 from nk_queue.list_queue_client import ListQueueClient
 
 HOST = os.getenv("HOST")
@@ -34,6 +33,34 @@ def test_get():
 
     # Queue value as second tuple item
     assert get_output[1].decode("utf-8") == "test"
+
+
+def test_iterator():
+    queue_name = f"test_list_queue_{randint(0, 1000)}"
+    list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
+    list_queue.initialize()
+
+    output = list_queue.put("test1")
+    assert output == 1
+
+    output = list_queue.put("test2")
+    assert output == 2
+
+    output = list_queue.put("test3")
+    assert output == 3
+
+    message_index = 1
+
+    for message in list_queue:
+        assert isinstance(message, Message)
+
+        message_value = message.value.decode("utf-8")
+        assert message_value == f"test{message_index}"
+
+        if message_index == 3:
+            break
+
+        message_index += 1
 
 
 def test_transaction_commit():
@@ -95,6 +122,19 @@ def test_transaction_abort_with_previous_put():
     next_get_output = list_queue.get()
 
     assert next_get_output is None
+
+
+def test_delete():
+    queue_name = f"test_list_queue_{randint(0, 1000)}"
+    list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
+    list_queue.initialize()
+
+    output = list_queue.put("test")
+    assert output == 1
+
+    output = list_queue.remove_item("test")
+
+    assert output == 1
 
 
 def test_list_all():
