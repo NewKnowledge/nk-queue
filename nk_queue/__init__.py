@@ -16,6 +16,7 @@ def get_queue(
     port=PORT,
     auth_token=None,
     ssl=False,
+    iterator_timeout=0,
 ):
     host = HOST if host is None else host
     port = PORT if port is None else port
@@ -25,6 +26,7 @@ def get_queue(
         return ListQueue(
             queue_name,
             ListQueueClient(host, port, DB, auth_token, ssl),
+            iterator_timeout,
         )
     elif queue_type == "sorted":
         return SchedulingQueue(

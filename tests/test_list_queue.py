@@ -1,5 +1,5 @@
 import os
-from random import randint
+from uuid import uuid4
 
 from nk_queue.list_queue import ListQueue, Message
 from nk_queue.list_queue_client import ListQueueClient
@@ -11,14 +11,14 @@ DB = os.getenv("DB")
 
 def test_put():
     list_queue = ListQueue(
-        f"test_list_queue_{randint(0, 1000)}", ListQueueClient(HOST, PORT, DB))
+        f"test_list_queue_{uuid4()}", ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
     output = list_queue.put("test")
     assert output == 1
 
 
 def test_get():
-    queue_name = f"test_list_queue_{randint(0, 1000)}"
+    queue_name = f"test_list_queue_{uuid4()}"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
     output = list_queue.put("test")
@@ -36,7 +36,7 @@ def test_get():
 
 
 def test_iterator():
-    queue_name = f"test_list_queue_{randint(0, 1000)}"
+    queue_name = f"test_list_queue_{uuid4()}"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
 
@@ -63,8 +63,36 @@ def test_iterator():
         message_index += 1
 
 
+def test_iterator_with_timeout():
+    queue_name = f"test_list_queue_{uuid4()}"
+    list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB), iterator_timeout=2)
+    list_queue.initialize()
+
+    output = list_queue.put("test1")
+    assert output == 1
+
+    output = list_queue.put("test2")
+    assert output == 2
+
+    output = list_queue.put("test3")
+    assert output == 3
+
+    message_index = 1
+
+    for message in list_queue:
+        assert isinstance(message, Message)
+
+        message_value = message.value.decode("utf-8")
+        assert message_value == f"test{message_index}"
+
+        message_index += 1
+
+    # assert 3 messages have been processed and iterator exited after timeout exceeded.
+    assert message_index == 4
+
+
 def test_transaction_commit():
-    queue_name = f"test_list_queue_{randint(0, 1000)}"
+    queue_name = f"test_list_queue_{uuid4()}"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
     list_queue.begin_transaction()
@@ -85,7 +113,7 @@ def test_transaction_commit():
 
 
 def test_transaction_abort():
-    queue_name = f"test_list_queue_{randint(0, 1000)}"
+    queue_name = f"test_list_queue_{uuid4()}"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
 
@@ -99,7 +127,7 @@ def test_transaction_abort():
 
 
 def test_transaction_abort_with_previous_put():
-    queue_name = f"test_list_queue_{randint(0, 1000)}"
+    queue_name = f"test_list_queue_{uuid4()}"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
 
@@ -125,7 +153,7 @@ def test_transaction_abort_with_previous_put():
 
 
 def test_delete():
-    queue_name = f"test_list_queue_{randint(0, 1000)}"
+    queue_name = f"test_list_queue_{uuid4()}"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
 
@@ -138,7 +166,7 @@ def test_delete():
 
 
 def test_list_all():
-    queue_name = f"test_list_queue_{randint(0, 1000)}"
+    queue_name = f"test_list_queue_{uuid4()}"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
 
