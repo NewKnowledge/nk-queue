@@ -65,7 +65,8 @@ def test_iterator():
 
 def test_iterator_with_timeout():
     queue_name = f"test_list_queue_{uuid4()}"
-    list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB), iterator_timeout=2)
+    list_queue = ListQueue(queue_name, ListQueueClient(
+        HOST, PORT, DB), iterator_timeout=2)
     list_queue.initialize()
 
     output = list_queue.put("test1")
