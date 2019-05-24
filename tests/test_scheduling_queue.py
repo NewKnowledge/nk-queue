@@ -14,7 +14,7 @@ DB = os.getenv("DB")
 
 def test_schedule_item():
     queue = SchedulingQueue(
-        f"test_schedule_queue_{randint(0, 1000)}", SortedQueueClient(
+        f"test_schedule_items_queue", SortedQueueClient(
             HOST, PORT, DB)
     )
     queue.initialize()
@@ -24,7 +24,7 @@ def test_schedule_item():
 
 def test_get_scheduled_items():
     queue = SchedulingQueue(
-        f"test_schedule_queue_{randint(0, 1000)}", SortedQueueClient(
+        f"test_get_scheduled_items_queue", SortedQueueClient(
             HOST, PORT, DB)
     )
     queue.initialize()
@@ -40,7 +40,7 @@ def test_get_scheduled_items():
 
 def test_remove_items():
     queue = SchedulingQueue(
-        f"test_schedule_queue_{randint(0, 1000)}", SortedQueueClient(
+        f"test_remove_items_queue", SortedQueueClient(
             HOST, PORT, DB)
     )
     queue.initialize()
@@ -55,7 +55,7 @@ def test_remove_items():
 
 def test_transaction_commit_schedule_items():
     queue = SchedulingQueue(
-        f"test_schedule_queue_{randint(0, 1000)}", SortedQueueClient(
+        f"test_transaction_commit_schedule_items_queue", SortedQueueClient(
             HOST, PORT, DB)
     )
     queue.initialize()
@@ -78,7 +78,7 @@ def test_transaction_commit_schedule_items():
 
 def test_transaction_commit_remove_schedule_items():
     queue = SchedulingQueue(
-        f"test_schedule_queue_{randint(0, 1000)}", SortedQueueClient(
+        f"test_transaction_commit_remove_schedule_queue", SortedQueueClient(
             HOST, PORT, DB)
     )
     queue.initialize()
@@ -98,7 +98,7 @@ def test_transaction_commit_remove_schedule_items():
 
 def test_transaction_abort_schedule_items():
     queue = SchedulingQueue(
-        f"test_schedule_queue_{randint(0, 1000)}", SortedQueueClient(
+        f"test_transaction_abort_schedule_queue", SortedQueueClient(
             HOST, PORT, DB)
     )
     queue.initialize()
@@ -119,7 +119,7 @@ def test_transaction_abort_schedule_items():
 
 def test_transaction_abort_remove_schedule_items():
     queue = SchedulingQueue(
-        f"test_schedule_queue_{randint(0, 1000)}", SortedQueueClient(
+        f"test_transaction_abort_remove_schedule_queue", SortedQueueClient(
             HOST, PORT, DB)
     )
     queue.initialize()
@@ -140,7 +140,7 @@ def test_transaction_abort_remove_schedule_items():
 
 def test_list_all():
     queue = SchedulingQueue(
-        f"test_schedule_queue_{randint(0, 1000)}", SortedQueueClient(
+        f"test_list_all_queue", SortedQueueClient(
             HOST, PORT, DB)
     )
     queue.initialize()
