@@ -28,26 +28,32 @@ class KafkaPubSubClient(AbstractPubSubClient):
             print(f"Waiting on {self._kafka_brokers} {e}")
             raise e
 
-    def _create_kafka_topics(self):
+    def _create_kafka_producer_topics(self):
         for topic in self._producer_topics:
-            self._kafka_client.ensure_topic_exists(topic)
+            self._ensure_topic_exists(topic)
 
-        self._kafka_client.ensure_topic_exists(self._consumer_topic)
+    def _ensure_topic_exists(self, topic):
+        self._kafka_client.ensure_topic_exists(topic)
+
+    # Only initialize consumer and topic if message requested.
+    def _get_kafka_consumer(self):
+        if not self._consumer:
+            self._ensure_topic_exists(self._consumer_topic)
+
+            self._consumer = KafkaConsumer(
+                self._consumer_topic,
+                bootstrap_servers=self._kafka_brokers,
+                group_id=self._group_id)
+
+        return self._consumer
 
     def initialize(self):
         self._kafka_client = self._get_client()
-
-        self._create_kafka_topics()
-
+        self._create_kafka_producer_topics()
         self._producer = KafkaProducer(bootstrap_servers=self._kafka_brokers)
-
-        self._consumer = KafkaConsumer(
-            self._consumer_topic,
-            bootstrap_servers=self._kafka_brokers,
-            group_id=self._group_id)
 
     def publish(self, message, topic):
         self._producer.send(topic, message.encode("utf-8"))
 
     def get_message(self):
-        return self._consumer
+        return self._get_kafka_consumer()
