@@ -7,7 +7,9 @@ Message = namedtuple("Message", "value")
 
 
 class ListQueue:
-    def __init__(self, queue_name, queue_client: AbstractQueueClient, iterator_timeout=0):
+    def __init__(
+        self, queue_name, queue_client: AbstractQueueClient, iterator_timeout=0
+    ):
         self._queue_name = queue_name
         self._queue_client = queue_client
         self._iterator_timeout = iterator_timeout

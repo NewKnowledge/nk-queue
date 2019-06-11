@@ -10,8 +10,7 @@ DB = os.getenv("DB")
 
 
 def test_put():
-    list_queue = ListQueue(
-        f"test_list_queue_test_put", ListQueueClient(HOST, PORT, DB))
+    list_queue = ListQueue(f"test_list_queue_test_put", ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
     output = list_queue.put("test")
     assert output == 1
@@ -19,7 +18,8 @@ def test_put():
 
 def test_put_with_duplicate_item():
     list_queue = ListQueue(
-        f"test_list_queue_test_put_with_duplicate_item", ListQueueClient(HOST, PORT, DB))
+        f"test_list_queue_test_put_with_duplicate_item", ListQueueClient(HOST, PORT, DB)
+    )
     list_queue.initialize()
     output = list_queue.put("test")
     assert output == 1
@@ -30,7 +30,8 @@ def test_put_with_duplicate_item():
 
 def test_put_with_duplicate_items_with_0_count():
     list_queue = ListQueue(
-        f"test_list_queue_test_put_with_duplicate_item", ListQueueClient(HOST, PORT, DB))
+        f"test_list_queue_test_put_with_duplicate_item", ListQueueClient(HOST, PORT, DB)
+    )
     list_queue.initialize()
     output = list_queue.put("test")
     assert output == 1
@@ -44,7 +45,8 @@ def test_put_with_duplicate_items_with_0_count():
 
 def test_put_with_duplicate_items_with_negative_1_count():
     list_queue = ListQueue(
-        f"test_list_queue_test_put_with_duplicate_item", ListQueueClient(HOST, PORT, DB))
+        f"test_list_queue_test_put_with_duplicate_item", ListQueueClient(HOST, PORT, DB)
+    )
     list_queue.initialize()
     output = list_queue.put("test")
     assert output == 1
@@ -58,7 +60,9 @@ def test_put_with_duplicate_items_with_negative_1_count():
 
 def test_put_with_duplicate_item_without_clear_existing():
     list_queue = ListQueue(
-        f"test_list_queue_test_put_with_duplicate_item_without_clear_existing", ListQueueClient(HOST, PORT, DB))
+        f"test_list_queue_test_put_with_duplicate_item_without_clear_existing",
+        ListQueueClient(HOST, PORT, DB),
+    )
     list_queue.initialize()
     output = list_queue.put("test")
     assert output == 1
@@ -115,8 +119,9 @@ def test_iterator():
 
 def test_iterator_with_timeout():
     queue_name = f"test_list_queue_test_iterator_with_timeout"
-    list_queue = ListQueue(queue_name, ListQueueClient(
-        HOST, PORT, DB), iterator_timeout=2)
+    list_queue = ListQueue(
+        queue_name, ListQueueClient(HOST, PORT, DB), iterator_timeout=2
+    )
     list_queue.initialize()
 
     output = list_queue.put("test1")

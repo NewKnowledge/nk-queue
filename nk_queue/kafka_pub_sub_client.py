@@ -43,7 +43,8 @@ class KafkaPubSubClient(AbstractPubSubClient):
             self._consumer = KafkaConsumer(
                 self._consumer_topic,
                 bootstrap_servers=self._kafka_brokers,
-                group_id=self._group_id)
+                group_id=self._group_id,
+            )
 
         return self._consumer
 
