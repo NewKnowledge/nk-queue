@@ -26,7 +26,7 @@ class ListQueueClient(AbstractQueueClient):
     def read(self, queue_name, start_index=-1, end_index=-1):
         return self.operation_context().lrange(queue_name, start_index, end_index)
 
-    def delete(self, queue_name, item, count=-1):
+    def delete(self, queue_name, item, count=0):
         return self.operation_context().lrem(queue_name, count, item)
 
     def put(self, queue_name, item):

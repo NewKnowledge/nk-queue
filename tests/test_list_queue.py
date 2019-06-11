@@ -28,6 +28,34 @@ def test_put_with_duplicate_item():
     assert output == 1
 
 
+def test_put_with_duplicate_items_with_0_count():
+    list_queue = ListQueue(
+        f"test_list_queue_test_put_with_duplicate_item", ListQueueClient(HOST, PORT, DB))
+    list_queue.initialize()
+    output = list_queue.put("test")
+    assert output == 1
+
+    output = list_queue.put("test", clear_existing=False)
+    assert output == 2
+
+    output = list_queue.put("test", count=0)
+    assert output == 1
+
+
+def test_put_with_duplicate_items_with_negative_1_count():
+    list_queue = ListQueue(
+        f"test_list_queue_test_put_with_duplicate_item", ListQueueClient(HOST, PORT, DB))
+    list_queue.initialize()
+    output = list_queue.put("test")
+    assert output == 1
+
+    output = list_queue.put("test", clear_existing=False)
+    assert output == 2
+
+    output = list_queue.put("test", count=-1)
+    assert output == 2
+
+
 def test_put_with_duplicate_item_without_clear_existing():
     list_queue = ListQueue(
         f"test_list_queue_test_put_with_duplicate_item_without_clear_existing", ListQueueClient(HOST, PORT, DB))
