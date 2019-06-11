@@ -10,15 +10,69 @@ DB = os.getenv("DB")
 
 
 def test_put():
-    list_queue = ListQueue(
-        f"test_list_queue_{uuid4()}", ListQueueClient(HOST, PORT, DB))
+    list_queue = ListQueue(f"test_list_queue_test_put", ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
     output = list_queue.put("test")
     assert output == 1
 
 
+def test_put_with_duplicate_item():
+    list_queue = ListQueue(
+        f"test_list_queue_test_put_with_duplicate_item", ListQueueClient(HOST, PORT, DB)
+    )
+    list_queue.initialize()
+    output = list_queue.put("test")
+    assert output == 1
+
+    output = list_queue.put("test")
+    assert output == 1
+
+
+def test_put_with_duplicate_items_with_0_count():
+    list_queue = ListQueue(
+        f"test_list_queue_test_put_with_duplicate_item", ListQueueClient(HOST, PORT, DB)
+    )
+    list_queue.initialize()
+    output = list_queue.put("test")
+    assert output == 1
+
+    output = list_queue.put("test", clear_existing=False)
+    assert output == 2
+
+    output = list_queue.put("test", count=0)
+    assert output == 1
+
+
+def test_put_with_duplicate_items_with_negative_1_count():
+    list_queue = ListQueue(
+        f"test_list_queue_test_put_with_duplicate_item", ListQueueClient(HOST, PORT, DB)
+    )
+    list_queue.initialize()
+    output = list_queue.put("test")
+    assert output == 1
+
+    output = list_queue.put("test", clear_existing=False)
+    assert output == 2
+
+    output = list_queue.put("test", count=-1)
+    assert output == 2
+
+
+def test_put_with_duplicate_item_without_clear_existing():
+    list_queue = ListQueue(
+        f"test_list_queue_test_put_with_duplicate_item_without_clear_existing",
+        ListQueueClient(HOST, PORT, DB),
+    )
+    list_queue.initialize()
+    output = list_queue.put("test")
+    assert output == 1
+
+    output = list_queue.put("test", clear_existing=False)
+    assert output == 2
+
+
 def test_get():
-    queue_name = f"test_list_queue_{uuid4()}"
+    queue_name = f"test_list_queue_test_get"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
     output = list_queue.put("test")
@@ -36,7 +90,7 @@ def test_get():
 
 
 def test_iterator():
-    queue_name = f"test_list_queue_{uuid4()}"
+    queue_name = f"test_list_queue_test_iterator"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
 
@@ -64,9 +118,10 @@ def test_iterator():
 
 
 def test_iterator_with_timeout():
-    queue_name = f"test_list_queue_{uuid4()}"
-    list_queue = ListQueue(queue_name, ListQueueClient(
-        HOST, PORT, DB), iterator_timeout=2)
+    queue_name = f"test_list_queue_test_iterator_with_timeout"
+    list_queue = ListQueue(
+        queue_name, ListQueueClient(HOST, PORT, DB), iterator_timeout=2
+    )
     list_queue.initialize()
 
     output = list_queue.put("test1")
@@ -93,7 +148,7 @@ def test_iterator_with_timeout():
 
 
 def test_transaction_commit():
-    queue_name = f"test_list_queue_{uuid4()}"
+    queue_name = f"test_list_queue_test_transaction_commit"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
     list_queue.begin_transaction()
@@ -114,7 +169,7 @@ def test_transaction_commit():
 
 
 def test_transaction_abort():
-    queue_name = f"test_list_queue_{uuid4()}"
+    queue_name = f"test_list_queue_test_transaction_abort"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
 
@@ -128,7 +183,7 @@ def test_transaction_abort():
 
 
 def test_transaction_abort_with_previous_put():
-    queue_name = f"test_list_queue_{uuid4()}"
+    queue_name = f"test_list_queue_test_transaction_abort_with_previous_put"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
 
@@ -154,7 +209,7 @@ def test_transaction_abort_with_previous_put():
 
 
 def test_delete():
-    queue_name = f"test_list_queue_{uuid4()}"
+    queue_name = f"test_list_queue_test_delete"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
 
@@ -167,7 +222,7 @@ def test_delete():
 
 
 def test_list_all():
-    queue_name = f"test_list_queue_{uuid4()}"
+    queue_name = f"test_list_queue_test_list_all"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
 
