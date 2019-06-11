@@ -26,7 +26,10 @@ class ListQueue:
     def initialize(self):
         self._queue_client.connect()
 
-    def put(self, item):
+    def put(self, item, clear_existing=True):
+        if clear_existing:
+            self._queue_client.delete(self._queue_name, item)
+
         return self._queue_client.put(self._queue_name, item)
 
     def get(self, timeout=1):
