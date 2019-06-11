@@ -36,4 +36,6 @@ class SortedQueueClient(AbstractQueueClient):
         return self.operation_context().zrem(queue_name, item)
 
     def list_all(self, queue_name, with_scores=True):
-        return self.operation_context().zrange(queue_name, 0, -1, withscores=with_scores)
+        return self.operation_context().zrange(
+            queue_name, 0, -1, withscores=with_scores
+        )
