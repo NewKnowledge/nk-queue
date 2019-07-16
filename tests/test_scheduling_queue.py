@@ -36,6 +36,37 @@ def test_get_scheduled_items():
     assert get_output[0].decode("utf-8") == "test item"
 
 
+def test_get_scheduled_items_slice():
+    queue = SchedulingQueue(
+        f"test_get_scheduled_items_slice", SortedQueueClient(HOST, PORT, DB)
+    )
+    queue.initialize()
+
+    output = queue.schedule_item(current_timestamp(), "test item")
+    assert output == 1
+
+    output = queue.schedule_item(current_timestamp(), "test item1")
+    assert output == 1
+
+    output = queue.schedule_item(current_timestamp(), "test item2")
+    assert output == 1
+
+    time.sleep(1)
+
+    get_output = queue.get_scheduled_items(with_scores=False, start=0, num=2)
+
+    assert isinstance(get_output, list)
+    assert len(get_output) == 2
+    assert get_output[0].decode("utf-8") == "test item"
+    assert get_output[1].decode("utf-8") == "test item1"
+
+    get_output = queue.get_scheduled_items(with_scores=False, start=2, num=1)
+
+    assert isinstance(get_output, list)
+    assert len(get_output) == 1
+    assert get_output[0].decode("utf-8") == "test item2"
+
+
 def test_remove_items():
     queue = SchedulingQueue(
         f"test_remove_items_queue", SortedQueueClient(HOST, PORT, DB)
