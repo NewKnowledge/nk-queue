@@ -13,9 +13,9 @@ class SchedulingQueue:
     def schedule_item(self, scheduled_timestamp, item):
         return self._queue_client.put(self._queue_name, scheduled_timestamp, item)
 
-    def get_scheduled_items(self, with_scores=True):
+    def get_scheduled_items(self, with_scores=True, start=None, num=None):
         return self._queue_client.get(
-            self._queue_name, max=current_timestamp(), with_scores=with_scores
+            self._queue_name, max=current_timestamp(), with_scores=with_scores, start=start, num=num
         )
 
     def remove_item(self, item):

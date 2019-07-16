@@ -21,9 +21,9 @@ class SortedQueueClient(AbstractQueueClient):
             ssl=self._ssl,
         )
 
-    def get(self, queue_name, min=0, max=sys.maxsize, with_scores=True):
+    def get(self, queue_name, min=0, max=sys.maxsize, with_scores=True, start=None, num=None):
         return self.operation_context().zrangebyscore(
-            queue_name, min=min, max=max, withscores=with_scores
+            queue_name, min=min, max=max, withscores=with_scores, start=start, num=num
         )
 
     def read(self):
