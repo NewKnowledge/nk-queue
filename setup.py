@@ -12,6 +12,6 @@ setup(
     url="https://github.com/NewKnowledge/nk-queue",
     packages=["nk_queue"],
     include_package_data=True,
-    install_requires=["redis>=3.3.1", "kafka"],
+    install_requires=["redis<=3.2.1", "kafka"],
     license="MIT",
 )
