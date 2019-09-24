@@ -42,6 +42,9 @@ class SortedQueueClient(AbstractQueueClient):
     def put(self, queue_name, score, item):
         return self.operation_context().zadd(queue_name, {item: score})
 
+    def r_put(self, *args, **kwargs):
+        raise NotImplementedError()
+
     def delete(self, queue_name, item):
         return self.operation_context().zrem(queue_name, item)
 

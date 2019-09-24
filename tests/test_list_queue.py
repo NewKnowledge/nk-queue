@@ -71,6 +71,27 @@ def test_put_with_duplicate_item_without_clear_existing():
     assert output == 2
 
 
+def test_put_r_put():
+    list_queue = ListQueue(
+        f"test_put_r_put",
+        ListQueueClient(HOST, PORT, DB),
+    )
+
+    list_queue.initialize()
+    output = list_queue.put("test")
+    assert output == 1
+
+    output = list_queue.r_put("test1")
+    assert output == 2
+
+    item1 = list_queue.get()
+    item2 = list_queue.get()
+
+    # Assert first item is the item added via r_put
+    assert item1[2].decode("utf-8") == "test1"
+    assert item2[2].decode("utf-8") == "test"
+
+
 def test_get():
     queue_name = f"test_list_queue_test_get"
     list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
