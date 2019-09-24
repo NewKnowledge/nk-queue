@@ -34,6 +34,12 @@ class ListQueue:
 
         return self._queue_client.put(self._queue_name, item)
 
+    def r_put(self, item, clear_existing=True, count=0):
+        if clear_existing:
+            self._queue_client.delete(self._queue_name, item, count)
+
+        return self._queue_client.r_put(self._queue_name, item)
+
     def get(self, timeout=1):
         return self._queue_client.get(self._queue_name, timeout)
 

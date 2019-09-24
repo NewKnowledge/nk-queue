@@ -26,11 +26,24 @@ class SortedQueueClient(AbstractQueueClient):
             queue_name, min=min, max=max, withscores=with_scores, start=start, num=num
         )
 
+    def get_range(self, queue_name, start=0, end=0, with_scores=True):
+        return self.operation_context().zrevrange(
+            name=queue_name, start=start, end=end, withscores=with_scores
+        )
+
+    def get_max_items(self, queue_name, count=1):
+        return self.operation_context().zpopmax(
+            name=queue_name, count=count
+        )
+
     def read(self):
         raise NotImplementedError()
 
-    def put(self, queue_name, scheduled_timestamp, item):
-        return self.operation_context().zadd(queue_name, {item: scheduled_timestamp})
+    def put(self, queue_name, score, item):
+        return self.operation_context().zadd(queue_name, {item: score})
+
+    def r_put(self, *args, **kwargs):
+        raise NotImplementedError()
 
     def delete(self, queue_name, item):
         return self.operation_context().zrem(queue_name, item)

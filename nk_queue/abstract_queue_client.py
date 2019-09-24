@@ -30,6 +30,10 @@ class AbstractQueueClient(ABC):
         pass
 
     @abstractmethod
+    def r_put(self, *args, **kwargs):
+        pass
+
+    @abstractmethod
     def delete(self, *args, **kwargs):
         pass
 
