@@ -88,8 +88,8 @@ def test_put_r_put():
     item2 = list_queue.get()
 
     # Assert first item is the item added via r_put
-    assert item1[2].decode("utf-8") == "test1"
-    assert item2[2].decode("utf-8") == "test"
+    assert item1[1].decode("utf-8") == "test1"
+    assert item2[1].decode("utf-8") == "test"
 
 
 def test_get():
