@@ -32,8 +32,8 @@ class ListQueueClient(AbstractQueueClient):
     def put(self, queue_name, item):
         return self.operation_context().lpush(queue_name, item)
 
-    def list_all(self, queue_name):
-        return self.operation_context().lrange(queue_name, 0, -1)
+    def r_put(self, queue_name, item):
+        return self.operation_context().rpush(queue_name, item)
 
     def list_all(self, queue_name):
         return self.operation_context().lrange(queue_name, 0, -1)
