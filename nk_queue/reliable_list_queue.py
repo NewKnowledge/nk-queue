@@ -12,7 +12,7 @@ class ReliableListQueue(ListQueue):
         self._save_queue_name = f"{self._queue_name}_save"
 
     def __next__(self):
-        saved_item = self._queue_client.get(self._queue_name, timeout=self._iterator_timeout)
+        saved_item = self._queue_client.get(self._save_queue_name, timeout=1)
 
         if saved_item:
             return Message(saved_item[1])

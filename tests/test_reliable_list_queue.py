@@ -22,12 +22,12 @@ def test_reliable_list_queue():
     for message in list_queue:
         assert isinstance(message, Message)
         message_value = message.value.decode("utf-8")
-        assert message_value == f"test1"
+        assert message_value == "test1"
         break
 
     item = list_queue._queue_client.get(save_queue_name)
     message_value = item.value.decode("utf-8")
-    assert message_value == f"test1"
+    assert message_value == "test1"
 
     result = list_queue.remove_saved_item("test1")
     assert result == 1
