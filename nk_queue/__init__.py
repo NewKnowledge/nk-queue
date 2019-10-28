@@ -1,6 +1,7 @@
 from nk_queue.config import HOST, PORT, DB
 
 from nk_queue.list_queue_client import ListQueueClient
+from nk_queue.reliable_list_queue import ReliableListQueue
 from nk_queue.sorted_queue_client import SortedQueueClient
 
 from nk_queue.list_queue import ListQueue
@@ -28,13 +29,19 @@ def get_queue(
             ListQueueClient(host, port, DB, auth_token, ssl),
             iterator_timeout,
         )
+    elif queue_type == "reliable-list":
+        return ReliableListQueue(
+            queue_name,
+            ListQueueClient(host, port, DB, auth_token, ssl),
+            iterator_timeout,
+        )
     elif queue_type == "sorted":
         return SchedulingQueue(
             queue_name, SortedQueueClient(host, port, DB, auth_token, ssl)
         )
     else:
         raise ModuleNotFoundError(
-            f"{queue_type} is not a valid queue type, options include 'list', 'sorted'"
+            f"{queue_type} is not a valid queue type, options include 'list', 'reliable-list', 'sorted'"
         )
 
 

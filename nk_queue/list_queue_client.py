@@ -23,6 +23,9 @@ class ListQueueClient(AbstractQueueClient):
     def get(self, queue_name, timeout=1):
         return self.operation_context().brpop(queue_name, timeout=timeout)
 
+    def get_and_save(self, queue_name, destination_queue_name, timeout=1):
+        return self.operation_context().brpoplpush(queue_name, destination_queue_name, timeout=timeout)
+
     def read(self, queue_name, start_index=-1, end_index=-1):
         return self.operation_context().lrange(queue_name, start_index, end_index)
 

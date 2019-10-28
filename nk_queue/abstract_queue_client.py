@@ -18,6 +18,10 @@ class AbstractQueueClient(ABC):
         pass
 
     @abstractmethod
+    def get_and_save(self, *args, **kwargs):
+        pass
+
+    @abstractmethod
     def read(self, *args, **kwargs):
         pass
 

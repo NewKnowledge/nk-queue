@@ -26,6 +26,9 @@ class SortedQueueClient(AbstractQueueClient):
             queue_name, min=min, max=max, withscores=with_scores, start=start, num=num
         )
 
+    def get_and_save(self, *args, **kwargs):
+        pass
+
     def get_range(self, queue_name, start=0, end=0, with_scores=True):
         return self.operation_context().zrevrange(
             name=queue_name, start=start, end=end, withscores=with_scores
