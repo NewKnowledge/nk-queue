@@ -12,9 +12,10 @@ DB = os.getenv("DB")
 
 def test_reliable_list_queue():
     queue_name = f"test_reliable_list_queue_test_iterator"
-    save_queue_name = f"test_reliable_list_queue_test_iterator_save"
     list_queue = ReliableListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
     list_queue.initialize()
+
+    save_queue_name = list_queue._save_queue_name
 
     output = list_queue.put("test1")
     assert output == 1
