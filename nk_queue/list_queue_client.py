@@ -22,7 +22,6 @@ class ListQueueClient(AbstractQueueClient):
 
     def disconnect(self):
         self._redis.connection_pool.disconnect()
-        self._redis = None
 
     def get(self, queue_name, timeout=1):
         return self.operation_context().brpop(queue_name, timeout=timeout)
