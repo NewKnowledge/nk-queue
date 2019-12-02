@@ -13,24 +13,27 @@ class ListQueue:
         self._queue_name = queue_name
         self._queue_client = queue_client
         self._iterator_timeout = iterator_timeout
+        self._initialized = False
 
     def __iter__(self):
         return self
 
     def __next__(self):
-        item = self._queue_client.get(self._queue_name, timeout=self._iterator_timeout)
+        if self._initialized:
+            item = self._queue_client.get(self._queue_name, timeout=self._iterator_timeout)
 
-        if item:
-            return Message(item[1])
-        else:
-            raise StopIteration()
+            if item:
+                return Message(item[1])
+
+        raise StopIteration()
 
     def initialize(self):
         self._queue_client.connect()
+        self._initialized = True
 
     def shut_down(self):
         self._queue_client.disconnect()
-        self._queue_client = None
+        self._initialized = False
 
     def put(self, item, clear_existing=True, count=0):
         if clear_existing:

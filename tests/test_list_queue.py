@@ -283,18 +283,11 @@ def test_shutdown():
     thread = Thread(target=queue_thread_task, args=(list_queue, exceptions,), daemon=True)
     thread.start()
 
-    time.sleep(3)
+    time.sleep(5)
 
     list_queue.shut_down()
 
     thread.join()
 
-    subsequent_exception = None
-    try:
-        list_queue.put("test")
-    except Exception as ex:
-        subsequent_exception = ex
-
     assert exceptions[0] is not None
     assert isinstance(exceptions[0], redis.exceptions.ConnectionError)
-    assert subsequent_exception is not None
