@@ -28,6 +28,10 @@ class ListQueue:
     def initialize(self):
         self._queue_client.connect()
 
+    def shut_down(self):
+        self._queue_client.disconnect()
+        self._queue_client = None
+
     def put(self, item, clear_existing=True, count=0):
         if clear_existing:
             self._queue_client.delete(self._queue_name, item, count)

@@ -1,4 +1,10 @@
 import os
+
+import redis
+import time
+
+from threading import Thread
+
 from uuid import uuid4
 
 from nk_queue.list_queue import ListQueue, Message
@@ -256,3 +262,39 @@ def test_list_all():
 
     assert len(output) == 4
     assert isinstance(output, list)
+
+
+def queue_thread_task(list_queue, exceptions):
+    try:
+
+        for item in list_queue:
+            pass
+
+    except Exception as ex:
+        exceptions.append(ex)
+
+
+def test_shutdown():
+    queue_name = f"test_shutdown"
+    list_queue = ListQueue(queue_name, ListQueueClient(HOST, PORT, DB))
+    list_queue.initialize()
+
+    exceptions = []
+    thread = Thread(target=queue_thread_task, args=(list_queue, exceptions,), daemon=True)
+    thread.start()
+
+    time.sleep(3)
+
+    list_queue.shut_down()
+
+    thread.join()
+
+    subsequent_exception = None
+    try:
+        list_queue.put("test")
+    except Exception as ex:
+        subsequent_exception = ex
+
+    assert exceptions[0] is not None
+    assert isinstance(exceptions[0], redis.exceptions.ConnectionError)
+    assert subsequent_exception is not None

@@ -14,6 +14,10 @@ class AbstractQueueClient(ABC):
         pass
 
     @abstractmethod
+    def disconnect(self, *args, **kwargs):
+        pass
+
+    @abstractmethod
     def get(self, *args, **kwargs):
         pass
 

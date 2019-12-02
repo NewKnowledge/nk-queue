@@ -21,6 +21,10 @@ class SortedQueueClient(AbstractQueueClient):
             ssl=self._ssl,
         )
 
+    def disconnect(self, *args, **kwargs):
+        self._redis.connection_pool.disconnect()
+        self._redis = None
+
     def get(self, queue_name, min=0, max=sys.maxsize, with_scores=True, start=None, num=None):
         return self.operation_context().zrangebyscore(
             queue_name, min=min, max=max, withscores=with_scores, start=start, num=num
